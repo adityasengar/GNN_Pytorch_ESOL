@@ -38,7 +38,7 @@ The pipeline executes the following steps:
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     ```
 
-3.  Install the required dependencies. PyTorch and PyTorch Geometric installation can be specific to your system (CPU/GPU). Please follow the official instructions on their websites. A general installation is:
+3.  Install the required dependencies. PyTorch and PyTorch Geometric installation can be specific to your system (CPU/GPU). Please follow the official instructions on their websites. Then, install the packages from the requirements file:
     ```bash
     pip install -r requirements.txt
     ```

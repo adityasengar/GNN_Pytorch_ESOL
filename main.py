@@ -14,7 +14,6 @@ def main():
     parser.add_argument('--lr', type=float, default=0.001, help="Learning rate.")
     parser.add_argument('--model_dir', type=str, default='models', help="Directory to save the trained model.")
     args = parser.parse_args()
-    
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
 

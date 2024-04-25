@@ -11,7 +11,7 @@ def main():
     parser = argparse.ArgumentParser(description="GCN for ESOL Prediction")
     parser.add_argument('--batch_size', type=int, default=32, help="Input batch size for training.")
     parser.add_argument('--epochs', type=int, default=50, help="Number of epochs to train.")
-    parser.add_argument('--lr', type=float, default=0.001, help="Learning rate.")
+    parser.add_argument('--lr', type=float, default=0.001, help="Optimizer learning rate.")
     parser.add_argument('--model_dir', type=str, default='models', help="Directory to save the trained model.")
     args = parser.parse_args()
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

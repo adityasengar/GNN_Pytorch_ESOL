@@ -23,6 +23,7 @@ def main():
 
     dataset = MoleculeNet(root='./data', name='ESOL')
     print("Dataset loaded successfully.")
+    print(f"  - Number of graphs: {len(dataset)}")
 
     train_dataset = dataset[:800]
     test_dataset = dataset[800:]

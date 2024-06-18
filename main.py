@@ -4,7 +4,8 @@ from torch_geometric.datasets import MoleculeNet
 import argparse
 import os
 
-from src.model import GCN
+from src.data_utils import esol_pre_transform
+from src.model import E3NN_GCN
 from src.train import train_epoch, evaluate
 
 def main():
@@ -21,7 +22,11 @@ def main():
     os.makedirs(args.model_dir, exist_ok=True)
     model_path = os.path.join(args.model_dir, "gcn_esol_model.pth")
 
-    dataset = MoleculeNet(root='./data', name='ESOL')
+    dataset = MoleculeNet(root='./data', name='ESOL', pre_transform=esol_pre_transform)
+    
+    # Filter out failed molecules
+    dataset = dataset.filter(lambda data: not torch.any(torch.isnan(data.x)))
+    
     print("Dataset loaded successfully.")
     print(f"  - Number of graphs: {len(dataset)}")
 
@@ -30,7 +35,11 @@ def main():
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
 
-    model = GCN(dataset.num_features).to(device)
+    model = E3NN_GCN(
+        node_features_irreps=dataset[0].x.shape[1], 
+        hidden_irreps="16x0e + 16x1o", 
+        output_irreps="1x0e"
+    ).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
 
     print("Starting training...")

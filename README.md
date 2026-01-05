@@ -1,46 +1,49 @@
-# Geometric Deep Learning for Molecular Solubility
+# Molecular Property Prediction with Graph Convolutional Networks (GCN)
 
-This library implements a Message Passing Neural Network (MPNN) to predict aqueous solubility (ESOL). Unlike standard QSAR methods, this approach leverages the graph topology of molecules, utilizing both atom and bond-level features.
+This repository contains an implementation of Graph Convolutional Networks (GCN) using PyTorch Geometric for predicting molecular properties, specifically focused on water solubility prediction.
 
-## Key Features
+## Dataset
+The ESOL dataset is used for training and evaluation. It contains a collection of small organic molecules along with their measured water solubility values.
 
-- **Graph Featurization**: Custom RDKit extraction of atom and bond attributes.
-- **Calibrated Uncertainty**: Implements Aleatoric Uncertainty quantification using Heteroscedastic Loss (NLL), allowing the model to flag low-confidence predictions on novel scaffolds.
-- **Production Ready**: Packaged as a standard Python library for easy integration into drug discovery workflows.
+## Model Architecture
+The GCN model consists of multiple graph convolutional layers followed by global pooling to generate a fixed-size graph-level representation. The final output layer predicts the water solubility value for each molecule.
 
-## Installation
-
-```bash
-git clone https://github.com/adityasengar/GNN_Pytorch_ESOL.git
-cd GNN_Pytorch_ESOL
-pip install .
-```
+## Dependencies
+- torch
+- torch_geometric
+- scikit-learn
+- matplotlib
+- numpy
 
 ## Usage
+1. Install the required dependencies: `pip install -r requirements.txt`
+2. Run the `train.py` script to train the GCN model.
+3. Evaluate the trained model on the test set using the `evaluate.py` script.
+4. Use the trained model for making predictions on new molecules using the `predict.py` script.
 
-To predict the solubility of a molecule from its SMILES string:
+## Results
+The trained GCN model achieves a mean squared error (MSE) of X on the test set, demonstrating its effectiveness in predicting water solubility.
 
-```python
-from admet_gnn import ADMETPredictor
+## License
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-# Load the trained model
-predictor = ADMETPredictor(model_path='path/to/your/trained_model.pt')
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-# Predict solubility for a list of SMILES strings
-smiles = ['CCO', 'c1ccccc1']
-results = predictor.predict(smiles)
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
-for smi, result in zip(smiles, results):
-    print(f'SMILES: {smi}')
-    print(f'  Predicted Solubility: {result["solubility"]:.2f}')
-    print(f'  Uncertainty (stdev): {result["uncertainty"]:.2f}')
-    print(f'  Confidence: {result["confidence"]}')
-```
 
-## Training
-
-To train the model, you need a CSV file with a 'smiles' column and a 'solubility' column.
-
-```bash
-python -m src.train --data_path /path/to/your/data.csv
-```
+## Acknowledgments
+- PyTorch Geometric: https://pytorch-geometric.readthedocs.io/
+- MoleculeNet: https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html#torch_geometric.datasets.MoleculeNet

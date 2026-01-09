@@ -82,3 +82,4 @@ This will load the pre-trained model and output the predicted solubility value.
     -   `smiles`: The SMILES string of the molecule to predict. (Required)
     -   `--model_path`: Path to the trained model file. (Default: `models/gcn_esol_model.pth`)
     -   `--num_features`: Number of input features the model was trained with. (Default: 75)
+# Updated on 2026-01-09
